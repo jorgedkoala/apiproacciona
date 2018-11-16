@@ -1,0 +1,14 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <base target="_top">
+    <script> function getData() { var sheetFileId = "1suIrqKHJ0BIelLGYYd-wIpODHaTBnTScUbkiHyqV9mM"; alert("before opening spreadsheet"); var sheetFile = SpreadsheetApp.openById(sheetFileId); alert("after opening spreadsheet"); } </script>
+</head>
+
+<body>
+    <p>Update web app from spreadsheet?</p>
+    <form onsubmit='getData()'> <input type='submit' value='Go'> </form>
+</body>
+
+</html>
