@@ -16,6 +16,7 @@ $decoded = JWT::decode($token, $key, array('HS256'));
 $method = $_SERVER['REQUEST_METHOD'];
 $idempresa = $_GET["id"];
 $key = $idempresa;
+$holding= $_GET["holding"];
 // get the HTTP method, path and body of the request
 //$method = $_SERVER['REQUEST_METHOD'];
 //$request = explode('/', trim($_SERVER['PATH_INFO'],'/'));
@@ -50,7 +51,7 @@ for ($i=0;$i<count($columns);$i++) {
 // create SQL based on HTTP method
 switch ($method) {
   case 'GET':
-    $sql = "select * from `$table`".($key?" WHERE id=$key":'')." ORDER BY nombre ASC"; break;
+    $sql = "select * from `$table`".($key?" WHERE id=$key":'').($holding?" OR idHolding=$holding":'')." ORDER BY nombre ASC"; break;
   case 'PUT':
     $sql = "update `$table` set $set where id=$key"; break;
   case 'POST':

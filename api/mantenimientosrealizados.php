@@ -42,6 +42,9 @@ if ($idempresa > 0){
 if (strlen($tipomantenimiento) > 1){
   $filter .= " AND tipo2 = '" . $tipomantenimiento . "'";
 }
+if ($_GET["filterdates"] && $_GET["fecha_inicio"] && $_GET["fecha_fin"] && $_GET["fecha_field"]){
+  $filterDates = " AND ".$_GET["fecha_field"].">='" . $_GET["fecha_inicio"] . "' AND ".$_GET["fecha_field"]." <='".$_GET["fecha_fin"]."'";
+}
 
 // escape the columns and values from the input object
 $columns = preg_replace('/[^a-z0-9_]+/i','',array_keys($input));
@@ -61,7 +64,7 @@ for ($i=0;$i<count($columns);$i++) {
 switch ($method) {
   case 'GET':
     //$sql = "select * from `$table` WHERE idmaquina=$idmaquina".$filter. "  ORDER BY fecha DESC"; break;
-      $sql = "select * from `$table` WHERE ".$filter. "  ORDER BY fecha DESC"; break;
+      $sql = "select * from `$table` WHERE ".$filter. $filterDates . "  ORDER BY fecha DESC"; break;
   case 'PUT':
     $sql = "update `$table` set $set where id=$key"; break;
   case 'POST':

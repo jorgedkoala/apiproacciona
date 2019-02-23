@@ -10,7 +10,7 @@ $idempresa = $_GET["idempresa"];
 switch ($method) {
   case 'GET':
    // $sql = "select lz.id as idlimpiezazona, lz.nombre as nombrelimpieza, le.*, pl.id as idpermiso, pl.idusuario, pl.idelementolimpieza as idlimpiezapermiso FROM limpieza_zona lz INNER JOIN limpieza_elemento le ON lz.id = le.idlimpiezazona INNER JOIN permissionlimpieza pl WHERE lz.idempresa=$idempresa"; break;
-   $sql = "select P.id, P.idmaquina,P.nombre from maquina_piezas P INNER JOIN maquinaria M ON P.idmaquina = M.id WHERE M.idempresa=$idempresa"; break;
+   $sql = "select id, idmaquina,nombre from maquina_piezas  WHERE idempresa=$idempresa"; break;
 }
 $registros=mysqli_query($conexion,$sql) or die('{"success":"false","error":"query->"'.mysqli_error($conexion).'" ,"sql":"'.$sql.'"}');
 

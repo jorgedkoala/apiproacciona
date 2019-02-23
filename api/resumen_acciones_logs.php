@@ -28,7 +28,7 @@ switch ($method) {
 WHERE
 	l.idempresa = $idempresa
 AND
-	l.fecha > $fechainicio
+	l.fecha > '$fechainicio'
     AND (l.tabla = 'ResultadosControl'
          OR l.tabla = 'resultadoschecklist'
           OR l.tabla = 'limpieza_realizada'

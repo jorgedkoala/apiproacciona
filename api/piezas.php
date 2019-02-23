@@ -17,6 +17,7 @@ $decoded = JWT::decode($token, $key, array('HS256'));
 
 $method = $_SERVER['REQUEST_METHOD'];
 $idmaquina = $_GET["idmaquina"];
+$idempresa = $_GET["idempresa"];
 $key = $_GET["id"];
 // get the HTTP method, path and body of the request
 //$method = $_SERVER['REQUEST_METHOD'];
@@ -51,7 +52,13 @@ for ($i=0;$i<count($columns);$i++) {
 // create SQL based on HTTP method
 switch ($method) {
   case 'GET':
-    $sql = "select * from `$table` WHERE idmaquina=$idmaquina"; break;
+    if ($idmaquina >0){
+    $sql = "select * from `$table` WHERE idmaquina=$idmaquina OR (idmaquina=0 AND  idempresa=$idempresa)"; 
+    }else{
+      $sql = "select * from `$table` WHERE idempresa=$idempresa"; 
+    }
+    break;
+
   case 'PUT':
     $sql = "update `$table` set $set where id=$key"; break;
   case 'POST':
