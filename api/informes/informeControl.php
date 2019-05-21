@@ -36,7 +36,7 @@ foreach ($std as $valor) {
 
 
 
-$sql = "SELECT id,nombre,pla FROM controles WHERE controles.idempresa = '" . $idempresa . "' ORDER BY orden, controles.id";
+$sql = "SELECT id,nombre,pla,periodicidad2 FROM controles WHERE controles.idempresa = '" . $idempresa . "' ORDER BY orden, controles.id";
 $columnas=mysqli_query($conexion,$sql) or die("{'success':false,'error':".mysqli_error($conexion)."}");
 //echo $sql;
 while ($reg=mysqli_fetch_array($columnas))
@@ -45,7 +45,8 @@ while ($reg=mysqli_fetch_array($columnas))
  $columna = new Columna();
  $columna->id=$reg["id"];
  $columna->nombre=$reg["nombre"];
-// $columna->pla=$reg["pla"];
+ $columna->fecha=$reg["fecha_"];
+ $columna->periodicidad=$reg["periodicidad2"]; 
 array_push($cols,$columna);
 }
 
@@ -60,9 +61,15 @@ switch ($method) {
 $registros=mysqli_query($conexion,$sql) or die('{"success":"false","error":"query->'.mysqli_error().'"}');
 
 if ($method == 'GET') {
+//	$rows[]="";
 	while ($reg=mysqli_fetch_array($registros))
 	{	
+		// if (isset($reg)){
 		$rows[] = $reg;
+		// }
+	}
+	if (is_null($rows)){
+		$rows=[];
 	}
 	if($registros){
 		$result = '{"success":"true","columnas":' . json_encode($cols) . ',"valores":' . json_encode($rows) . '}';

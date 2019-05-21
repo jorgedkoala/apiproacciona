@@ -3,6 +3,10 @@ header('Access-Control-Allow-Origin: *');
 include("../config/conexion2.php");
 $method = $_SERVER['REQUEST_METHOD'];
 $idempresa = $_GET["idempresa"];
+$version='';
+if ($_GET["version"]){
+$version = $_GET["version"];
+}
 //$sql = "SELECT * FROM permissionuserchecklist inner JOIN checklist on permissionuserchecklist.idchecklist = checklist.id inner JOIN controlchecklist ON checklist.id = controlchecklist.idchecklist WHERE checklist.idempresa = '" . $idempresa . "'";
 
 $WHERE ='';
@@ -12,8 +16,11 @@ if($_GET["WHERE_USER"]){
 //echo $sql;
 switch ($method) {
   case 'GET':
-   // $sql = "select lz.id as idlimpiezazona, lz.nombre as nombrelimpieza, le.*, pl.id as idpermiso, pl.idusuario, pl.idelementolimpieza as idlimpiezapermiso FROM limpieza_zona lz INNER JOIN limpieza_elemento le ON lz.id = le.idlimpiezazona INNER JOIN permissionlimpieza pl WHERE lz.idempresa=$idempresa"; break;
-   $sql = "select M.id as idMaquina, M.nombre as nombreMaquina, mm.* FROM maquinaria M INNER JOIN maquina_mantenimiento mm ON M.id = mm.idmaquina WHERE M.idempresa=$idempresa" .$WHERE . " ORDER BY M.nombre, mm.orden"; break;
+  if ($version == ''){
+   $sql = "select M.id as idMaquina, M.nombre as nombreMaquina, mm.*, pm.idusuario FROM maquinaria M INNER JOIN maquina_mantenimiento mm ON M.id = mm.idmaquina INNER JOIN permissionMaquinaria pm ON mm.id = pm.idmantenimiento  WHERE M.idempresa=$idempresa" .$WHERE . " ORDER BY M.nombre, mm.orden"; break;
+  }else{
+   $sql = "select M.id as idMaquina, M.nombre as nombreMaquina, mm.*, pl.id as idpermiso, pl.idusuario, pl.idmantenimiento as idmantenimientopermiso FROM maquinaria M INNER JOIN maquina_mantenimiento mm ON M.id = mm.idmaquina INNER JOIN permissionMaquinaria pl ON mm.id = pl.idmantenimiento  WHERE M.idempresa=$idempresa AND pl.idempresa = $idempresa " .$WHERE . " ORDER BY M.nombre, mm.orden"; break;
+   }
 }
 $registros=mysqli_query($conexion,$sql) or die('{"success":"false","error":"query->"'.mysqli_error($conexion).'" ,"sql":"'.$sql.'"}');
 

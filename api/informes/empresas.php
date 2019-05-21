@@ -30,7 +30,7 @@ $sql = 'select emp.nombre,oemp.* from'.
 ' GROUP BY idempresa ) oemp '.
 'RIGHT OUTER JOIN empresas emp '.
 'ON oemp.idempresa = emp.id '.
-'WHERE oemp.informes =1 AND emp.activa = 1 AND emp.id > 0;';
+'WHERE oemp.informes =1 AND emp.activa = 1 AND emp.id '.$idempresa.';';
 
 $registros=mysqli_query($conexion,$sql) or die('{"success":"false","error":"query->'.mysqli_error($conexion).'","sql":"'.$sql.'"}');
 

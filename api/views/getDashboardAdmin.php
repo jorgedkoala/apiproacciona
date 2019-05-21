@@ -34,7 +34,7 @@ switch($entidad){
         break;
     case "logins":
     // $sql ="select e.nombre as nombreEmpresa, l.*, count(*) as total from empresas e inner join logs l  on e.id = l.idempresa where e.activa= 1 AND l.fecha >= '".$fecha."' order by e.nombre";
-    $sql ="select e.nombre as nombreEmpresa,e.holding as holding,e.idholding as idholding, l.*, count(*) as total from empresas e inner join logs l  on e.id = l.idempresa where e.activa= 1 AND l.fecha >= '".$fecha."' ".$holding." GROUP BY e.nombre,l.idusuario,l.accion,l.tabla order by e.nombre";
+    $sql ="select e.nombre as nombreEmpresa,e.holding as holding,e.idholding as idholding, l.*, count(*) as total from empresas e inner join logs l  on e.id = l.idempresa where e.activa= 1 AND l.fecha >= '".$fecha."' ".$holding." AND l.idusuario<>$idLogs GROUP BY e.nombre,l.idusuario,l.accion,l.tabla order by e.nombre";
 
         break;
 }

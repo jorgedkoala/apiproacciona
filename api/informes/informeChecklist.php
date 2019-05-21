@@ -12,7 +12,16 @@ $token = $_GET["token"];
 // $decoded = JWT::decode($token, $key, array('HS256'));
 ///
 
-
+class Columna
+{
+    public $id;
+    public $nombre;
+}
+class Checklist
+{
+    public $nombre;
+    public $fecha;
+}
 class Resultado
 {
     public $usuario;
@@ -34,20 +43,32 @@ $fechafin = $_GET["fechafin"] ." 23:59:59";
 $checklists = [];
 $colsChecklists=[];
 $resultadosChecklists=[];
-$sqlChecks = "SELECT id,nombrechecklist FROM checklist WHERE idempresa = '" . $idempresa . "' ORDER BY orden, id";
+$sqlChecks = "SELECT id,nombrechecklist,fecha_,periodicidad2 FROM checklist WHERE idempresa = '" . $idempresa . "' ORDER BY orden, id";
 $checks=mysqli_query($conexion,$sqlChecks) or die("{'success':false,'error':".mysqli_error($conexion)."}");
 //echo $sql;
 while ($mischecks=mysqli_fetch_array($checks))
 {	
-//    $checklists = $reg;
-array_push($checklists,$mischecks["nombrechecklist"]);
+    $item = new Checklist();
+    $item->nombre=$mischecks["nombrechecklist"];
+    $item->fecha=$mischecks["fecha_"];
+    $item->periodicidad=$mischecks["periodicidad2"]; 
+    array_push($checklists,$item);
+//array_push($checklists,$mischecks["nombrechecklist"]);
 
 //*********CARGA LA LISTA DE ITEMS DEL CHECKLIST EN CURSO */
-$cols=["usuario","foto","hora","fecha"];
+$cols=[];
+$std=["usuario","foto","hora","fecha"];
+foreach ($std as $valor) {
+  $columna = new Columna();
+  $columna->id=0;
+  $columna->nombre=$valor;
+ array_push($cols,$columna);
+}
 $sqlItemsChecks = "SELECT id,nombre FROM controlchecklist WHERE idChecklist = '" . $mischecks["id"] . "' ORDER BY orden, id";
 $itemsChecks=mysqli_query($conexion,$sqlItemsChecks) or die("{'success':false,'error':".mysqli_error($conexion)."}");
 //echo $sql;
-$itemsChecklist=[];
+$itemsChecklist=$cols;
+
 while ($misItemsCheck=mysqli_fetch_array($itemsChecks))
 {
 $item = new ItemChecklist();
@@ -82,7 +103,6 @@ array_push($resultadosChecklists,$resultados);
 
 
 		$result = '{"success":"true","checklists":'.json_encode($checklists).',"columnas":' . json_encode($colsChecklists) . ',"valores":' . json_encode($resultadosChecklists) . '}';
-
 
 
 print $result;

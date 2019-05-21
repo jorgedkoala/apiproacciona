@@ -32,11 +32,11 @@ if ($modo == "realizados"){
     );
 }else{
 $sqlControles = array(
-    "SELECT ctl.nombre, ctl.fecha_ as fecha, 'control' as tipo FROM `controles` ctl WHERE (`fecha_` <= CURDATE() AND `idempresa` = ".$idempresa.")",
-    "SELECT cl.nombrechecklist as nombre, cl.fecha_ as fecha, 'checklist' as tipo FROM `checklist` cl WHERE (`fecha_` <= CURDATE() AND `idempresa` =".$idempresa.")",
-    "SELECT LZ.nombre as zona,LZ.id , LE.* , 'limpieza' as tipo FROM limpieza_zona LZ inner join limpieza_elemento LE on LZ.id=LE.idlimpiezazona where (LE.fecha <= CURDATE() and LZ.idempresa = ".$idempresa.")",
-    "SELECT M.nombre as maquina,M.id , mm.*, 'mantenimiento' as tipo FROM maquinaria M inner join maquina_mantenimiento mm on M.id=mm.idmaquina where (mm.fecha <= CURDATE() and M.idempresa = ".$idempresa.")",
-    "SELECT M.nombre as maquina,M.id , mm.*, 'calibracion' as tipo FROM maquinaria M inner join maquina_calibraciones mm on M.id=mm.idmaquina where (mm.fecha <= CURDATE() and M.idempresa = ".$idempresa.")"
+    "SELECT ctl.nombre, ctl.fecha_ as fecha, ctl.periodicidad2, 'control' as tipo FROM `controles` ctl WHERE (`fecha_` < CURDATE() AND `idempresa` = ".$idempresa.")",
+    "SELECT cl.nombrechecklist as nombre, cl.fecha_ as fecha, cl.periodicidad2, 'checklist' as tipo FROM `checklist` cl WHERE (`fecha_` < CURDATE() AND `idempresa` =".$idempresa.")",
+    "SELECT LZ.nombre as zona,LZ.id , LE.* , 'limpieza' as tipo FROM limpieza_zona LZ inner join limpieza_elemento LE on LZ.id=LE.idlimpiezazona where (LE.fecha < CURDATE() and LZ.idempresa = ".$idempresa." and LE.periodicidad NOT LIKE '%por uso%')",
+    "SELECT M.nombre as maquina,M.id , mm.*, 'mantenimiento' as tipo FROM maquinaria M inner join maquina_mantenimiento mm on M.id=mm.idmaquina where (mm.fecha < CURDATE() and M.idempresa = ".$idempresa.")",
+    "SELECT M.nombre as maquina,M.id , mm.*, 'calibracion' as tipo FROM maquinaria M inner join maquina_calibraciones mm on M.id=mm.idmaquina where (mm.fecha < CURDATE() and M.idempresa = ".$idempresa.")"
 );
 }
 $arrlength = count($sqlControles);

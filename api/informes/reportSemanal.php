@@ -53,8 +53,7 @@ $email->setFrom("alertes@proacciona.es");
 $email->addReplyTo('alertes@proacciona.es', 'Proacciona');
 $email->FromName  = 'Proacciona';
 $email->Subject   = 'Proacciona alertas' ;
-
-//   $email->addAddress( 'jorged@ntskoala.com' );
+$email->addAddress( 'jorged@ntskoala.com' );
 /////******** FIN PREPARE EMAIL ********//
 /////******** FIN PREPARE EMAIL ********//
 $empresaActual = 0;
@@ -132,9 +131,9 @@ while ($regControl=mysqli_fetch_array($controles))
 }
 }
 }
-if (!$email->addAddress($regempresa["email"])){
-    // echo "#".$regempresa["email"] . " No añadido<br>";
-}
+// if (!$email->addAddress($regempresa["email"])){
+//     // echo "#".$regempresa["email"] . " No añadido<br>";
+// }
 $numEmpresas--;
 
 if (($empresaActual > 0 && $regempresa["idempresa"] != $empresaActual) || $numEmpresas==0){

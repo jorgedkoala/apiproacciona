@@ -34,9 +34,14 @@ if ($_GET["fields"]){
 if ($_GET["order"]){
   $order = " ORDER BY " . mysqli_real_escape_string($conexion,$_GET["order"]);
 }
+
 if ($_GET["WHERE"]){
-  $where = " AND " . mysqli_real_escape_string($conexion,$_GET["WHERE"]) . "'". mysqli_real_escape_string($conexion,$_GET["valor"]) ."'";
+  $where = " AND " . mysqli_real_escape_string($conexion,$_GET["WHERE"]);
+  if ($_GET["valor"]){
+   $where .= "'". mysqli_real_escape_string($conexion,$_GET["valor"]) ."'";
+  }
 }
+
 if ($_GET["filterdates"] && $_GET["fecha_inicio"] && $_GET["fecha_fin"] && $_GET["fecha_field"]){
   $filter = " AND ".$_GET["fecha_field"].">='" . $_GET["fecha_inicio"] . "' AND ".$_GET["fecha_field"]." <='".$_GET["fecha_fin"]."'";
 }
@@ -105,7 +110,11 @@ switch ($method) {
   case 'GET':
     $sql = "select $fields from `$table` WHERE idempresa=$idempresa" . $where . $filter . $order; break;
   case 'PUT':
+  if ($where==''){
     $sql = "update `$table` set $set where id=$key"; break;
+  }else{
+    $sql = "update `$table` set $set where idempresa=$idempresa" . $where .""; break;
+  }
   case 'POST':
     $sql = "insert into `$table` set $set"; break;
   case 'DELETE':

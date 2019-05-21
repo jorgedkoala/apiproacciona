@@ -61,18 +61,18 @@ switch ($entidad){
 $fichero_subido = $dir . $nombre;
 $guarda = $dir.$idEntidad.'_'. $nombre;
 
-function upload_object($bucketName, $objectName, $source)
-{
-    $storage = new StorageClient();
-    $file = fopen($source, 'r');
-    $bucket = $storage->bucket($bucketName);
-    $object = $bucket->upload($file, [
-        'name' => $objectName
-    ]);
-    printf('Uploaded %s to gs://%s/%s' . PHP_EOL, basename($source), $bucketName, $objectName);
-}
+// function upload_object($bucketName, $objectName, $source)
+// {
+//     $storage = new StorageClient();
+//     $file = fopen($source, 'r');
+//     $bucket = $storage->bucket($bucketName);
+//     $object = $bucket->upload($file, [
+//         'name' => $objectName
+//     ]);
+//     printf('Uploaded %s to gs://%s/%s' . PHP_EOL, basename($source), $bucketName, $objectName);
+// }
 
-upload_object('tfc1-181808.appspot.com',$guarda,$_FILES);
+// upload_object('tfc1-181808.appspot.com',$guarda,$_FILES);
 
  if ((move_uploaded_file($_FILES["doc"]["tmp_name"], $guarda)) && $SSQL) {
 
