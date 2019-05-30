@@ -86,17 +86,26 @@ $sqlresultadosChecklists = "select *, resultadoschecklist.id as idr, resultadosc
 $resultadosChecklistsQuery=mysqli_query($conexion,$sqlresultadosChecklists) or die("{'success':false,'error':".mysqli_error($conexion)."}");
 //echo $sql;
 $resultados=[];
+// $resultadoIndividual=[];
+// $idlocal=0;
 while ($misresultadosChecklists=mysqli_fetch_array($resultadosChecklistsQuery))
 {
-    //$resultados[] = $misresultadosChecklists;
+    // if ($idlocal != $misresultadosChecklists["idlocal"]){
+    //     if ($idlocal != 0) array_push($resultados,$resultadoIndividual);
+    //     $idlocal = $misresultadosChecklists["idlocal"];
+    //     $resultadoIndividual=[];
+    // }
     $miResultado = new Resultado();
     $miResultado->usuario=$misresultadosChecklists["usuario"];
     $miResultado->foto=$misresultadosChecklists["foto"];
     $miResultado->fecha=$misresultadosChecklists["fecha"];
     $miResultado->idItem=$misresultadosChecklists["idcontrolchecklist"];
     $miResultado->resultado=$misresultadosChecklists["resultado"];
+    // array_push($resultadoIndividual,$miResultado);
     array_push($resultados,$miResultado);
 }
+
+// array_push($resultados,$resultadoIndividual);
 array_push($resultadosChecklists,$resultados);
 //******** SIGUIENTE CHECKLIST -- FIN while ($mischecks)*/
 }
