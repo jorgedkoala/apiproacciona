@@ -53,7 +53,7 @@ $input = json_decode(file_get_contents('php://input'),true);
 //$table = preg_replace('/[^a-z0-9_]+/i','',array_shift($request));
 //$key = array_shift($request)+0;
 $table = $entidad;
-
+$nickTable = $_GET["nickentidad"];
 
 
 
@@ -74,7 +74,7 @@ for ($i=0;$i<count($columns);$i++) {
 // create SQL based on HTTP method
 switch ($method) {
   case 'GET':
-    $sql = "select * from `$table` WHERE `$field`=$idItem" . $where . $filter . $order; break;
+    $sql = "select * from `$table` $nickTable WHERE `$field`=$idItem" . $where . $filter . $order; break;
   case 'PUT':
     $sql = "update `$table` set $set where id=$key"; break;
   case 'POST':
