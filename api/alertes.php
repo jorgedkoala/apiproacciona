@@ -18,6 +18,8 @@ $idempresa = $_GET["idempresa"];
 $userId = $_GET["userId"];
 $resumen=$remite;
 $empresa ="";
+$asunto= 'Proacciona incidencias';
+
 //include ("./library.php"); // include the library file
 include ("./inc/class.phpmailer.php"); // include the class name
 include ("./inc/class.smtp.php");
@@ -37,15 +39,36 @@ $registros=mysqli_query($conexion,$sql) or die('{"success":"false","error":"quer
 		$empresa = $reg["nombre"];
 	}
 
-	if ($remite == 'help'){
-		$cabecera = "<table width='500px' style='background-color:#ededed;text-align: center;'><tr><td style='background-color:#ffffff'>
-		<img src='https://tfc.proacciona.es/assets/images/logo.jpg'></td></tr>
-		<tr><td  height='35px' style='background-color:#ffd740'><b>Nueva consulta abierta por ".$empresa."</b></td></tr><tr><td style='padding: 25px;'>";
-		}else{
+	// if ($remite == 'help'){
+	// 	$cabecera = "<table width='500px' style='background-color:#ededed;text-align: center;'><tr><td style='background-color:#ffffff'>
+	// 	<img src='https://tfc.proacciona.es/assets/images/logo.jpg'></td></tr>
+	// 	<tr><td  height='35px' style='background-color:#ffd740'><b>Nueva consulta abierta por ".$empresa."</b></td></tr><tr><td style='padding: 25px;'>";
+	// 	}else{
+	// $cabecera = "<table width='500px' style='background-color:#ededed;text-align: center;'><tr><td style='background-color:#ffffff'>
+	// <img src='https://tfc.proacciona.es/assets/images/logo.jpg'></td></tr>
+	// <tr><td  height='35px' style='background-color:#ffd740'><b>Nueva incidencia abierta en ".$empresa."</b></td></tr><tr><td style='padding: 25px;'>";
+	// 	}
+
+switch($remite){
+	case "help":
+	$cabecera = "<table width='500px' style='background-color:#ededed;text-align: center;'><tr><td style='background-color:#ffffff'>
+	<img src='https://tfc.proacciona.es/assets/images/logo.jpg'></td></tr>
+	<tr><td  height='35px' style='background-color:#ffd740'><b>Nueva consulta abierta por ".$empresa."</b></td></tr><tr><td style='padding: 25px;'>";
+	break;
+	case "cobertura":
+	$cabecera = "<table width='500px' style='background-color:#ededed;text-align: center;'><tr><td style='background-color:#ffffff'>
+	<img src='https://tfc.proacciona.es/assets/images/logo.jpg'></td></tr>
+	<tr><td  height='35px' style='background-color:#ffd740'><b>Cobertura de stock sobrepasada en ".$empresa."</b></td></tr><tr><td style='padding: 25px;'>";
+	$asunto= 'Proacciona cobertura stock';
+	break;
+	default:
 	$cabecera = "<table width='500px' style='background-color:#ededed;text-align: center;'><tr><td style='background-color:#ffffff'>
 	<img src='https://tfc.proacciona.es/assets/images/logo.jpg'></td></tr>
 	<tr><td  height='35px' style='background-color:#ffd740'><b>Nueva incidencia abierta en ".$empresa."</b></td></tr><tr><td style='padding: 25px;'>";
-		}	
+	break;	
+}
+
+
 $body = $cabecera.$getBody.$pie.$eol;
 
 
@@ -112,7 +135,7 @@ $email->FromName  = 'Proacciona';
 if ($remite == 'help'){
 $email->Subject   = 'Ticket de Consulta ' . $empresa;
 }else{
-	$email->Subject   = 'Proacciona incidencias';
+	$email->Subject   = $asunto;
 }
    $email->Body      = $body.$eol;
    $email->addAddress( 'jorged@ntskoala.com' );

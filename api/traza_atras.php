@@ -25,7 +25,7 @@ if ($_GET["idmateriaprima"]){
 
  
 
-$sql = "SELECT *, pd.cantidad as cantidad_detalle FROM produccion_orden po INNER JOIN produccion_detalle pd ON po.id = pd.idorden WHERE " . $where . "";
+$sql = "SELECT *, pd.cantidad as cantidad_detalle, po.nombre as nombreProduccion FROM produccion_orden po INNER JOIN produccion_detalle pd ON po.id = pd.idorden WHERE " . $where . "";
 $registros=mysqli_query($conexion,$sql) or die('{"success":"false","error":"query->'.mysqli_error($conexion).'"}');
 
 
@@ -34,7 +34,7 @@ $registros=mysqli_query($conexion,$sql) or die('{"success":"false","error":"quer
 		$rows[] = $reg;
 	}
 	if($registros){
-		$result = '{"success":"true","data":' . json_encode($rows) . '}';
+		$result = '{"success":"true","data":' . json_encode($rows) . ',"sql":"'.$sql.'"}';
 	}
 	
 

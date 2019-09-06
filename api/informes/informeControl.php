@@ -36,7 +36,7 @@ foreach ($std as $valor) {
 
 
 
-$sql = "SELECT id,nombre,pla,periodicidad2 FROM controles WHERE controles.idempresa = '" . $idempresa . "' ORDER BY orden, controles.id";
+$sql = "SELECT id,nombre,pla,fecha_,periodicidad2 FROM controles WHERE controles.idempresa = '" . $idempresa . "' ORDER BY orden, controles.id";
 $columnas=mysqli_query($conexion,$sql) or die("{'success':false,'error':".mysqli_error($conexion)."}");
 //echo $sql;
 while ($reg=mysqli_fetch_array($columnas))
